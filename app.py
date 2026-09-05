@@ -148,7 +148,7 @@ with col1:
     show_heat = st.checkbox("Show Prospectivity Map")
     show_dep = st.checkbox("Show Deposits", value=True)
 
-    m = folium.Map(location=[21.8, 80.18], zoom_start=11, tiles="CartoDB dark_matter")
+    m = folium.Map(location=[21.8, 80.18], zoom_start=11, tiles="OpenStreetMap")
 
     if show_heat and grid:
         cm = LinearColormap(["blue", "cyan", "yellow", "orange", "red"], 0, 1)
@@ -400,7 +400,7 @@ with t4:
 
         st.divider()
         st.write("**All Predictions on Map**")
-        val_map = folium.Map(location=[21.8, 80.18], zoom_start=11, tiles="CartoDB dark_matter")
+        val_map = folium.Map(location=[21.8, 80.18], zoom_start=11, tiles="OpenStreetMap")
         for _, row in test_df.iterrows():
             correct = row["actual_label"] == row["predicted"]
             color = "green" if correct else "red"
