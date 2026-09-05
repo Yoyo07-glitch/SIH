@@ -169,7 +169,7 @@ with col1:
     folium.Marker([st.session_state.lat, st.session_state.lon],
                   icon=folium.Icon(color=mcol, icon="crosshairs", prefix="fa")).add_to(m)
 
-    st_folium(m, height=450, key="map", returned_objects=[])
+    map_data = st_folium(m, height=450, key="map", returned_objects=["last_clicked"])
 
 with col2:
     st.subheader("Point Inference")
@@ -182,6 +182,14 @@ with col2:
         st.session_state.lon = lon
         st.session_state.score = None
         st.rerun()
+
+    if map_data and map_data.get("last_clicked"):
+        lc = map_data["last_clicked"]
+        if st.button("Pick Location from Map"):
+            st.session_state.lat = lc["lat"]
+            st.session_state.lon = lc["lng"]
+            st.session_state.score = None
+            st.rerun()
 
     st.divider()
     b8 = st.slider("Band 8 (NIR)", 0, 4000, 1500)
