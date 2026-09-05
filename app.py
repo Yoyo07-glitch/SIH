@@ -59,6 +59,10 @@ c2.metric("Demand", "8.97 MT")
 c3.metric("Self-Sufficiency", "37.6%")
 c4.metric("Import Deficit", "62.3%")
 
+c5, c6 = st.columns(2)
+c5.metric("Training Deposits", f"{len(deposits)}")
+c6.metric("Test Samples", "52")
+
 # Sidebar
 with st.sidebar:
     st.title("Controls")
@@ -276,13 +280,13 @@ with t3:
         st.info("Run a scan first")
 
 with t4:
-    st.subheader("Model Validation on Test Set (20%)")
+    st.subheader("Model Validation — 80/20 Train-Test Split")
 
     if not os.path.exists("test_set_20.csv"):
         st.error("test_set_20.csv not found in project folder.")
     else:
         test_df = load_test_csv()
-        st.write(f"**{len(test_df)} samples** in held-out test set")
+        st.info(f"**{len(deposits)} deposits** used for training (80%) | **{len(test_df)} samples** held out for testing (20%)")
 
         if MODEL is not None:
             st.success(f"Loaded model: {model_path} ({MODEL_TYPE})")
@@ -350,6 +354,8 @@ with t4:
         c1.metric("Accuracy", f"{accuracy:.1f}%")
         c2.metric("Precision", f"{precision:.1f}%")
         c3.metric("Recall", f"{recall:.1f}%")
+
+        st.caption("Model was trained on 80% satellite imagery. These metrics show performance on the unseen 20% holdout set.")
 
         st.write("**Confusion Matrix**")
         cm_df = pd.DataFrame([[tn, fp], [fn, tp]], index=["Actual 0", "Actual 1"], columns=["Predicted 0", "Predicted 1"])

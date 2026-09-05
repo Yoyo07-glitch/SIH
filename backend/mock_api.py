@@ -138,6 +138,9 @@ for lat in grid_lats:
 
 # ---------- Endpoints ----------
 
+TRAIN_DEPOSITS = deposits[:103]
+TEST_DEPOSITS = deposits[103:]
+
 @app.get("/")
 def root():
     return {"message": "Manganese Exploration System - Mock Backend Running", "version": "1.0.0"}
@@ -167,7 +170,7 @@ def get_forecast_summary():
 
 @app.get("/api/v1/spatial/deposits", response_model=List[DepositPoint])
 def get_deposits():
-    return deposits
+    return TRAIN_DEPOSITS
 
 
 @app.get("/api/v1/spatial/grid-predictions", response_model=List[GridCell])
@@ -206,7 +209,7 @@ def predict_point(req: PointPredictionRequest):
 
 @app.get("/api/v1/health")
 def health_check():
-    return {"status": "healthy", "deposits_loaded": len(deposits), "grid_cells": len(grid_predictions)}
+    return {"status": "healthy", "deposits_loaded": len(TRAIN_DEPOSITS), "test_deposits": len(TEST_DEPOSITS), "grid_cells": len(grid_predictions)}
 
 
 if __name__ == "__main__":
