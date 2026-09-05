@@ -6,3 +6,4 @@ frontend.zip
 *.h5
 *.pt
 .env
+scan_history.csv
